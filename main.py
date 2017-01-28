@@ -10,7 +10,7 @@ mem = memory.mem()
 cpu = processor.cpu()
 
 debug = True
-memsize = 0xa00
+memsize = 0x100
 
 mem.initMem(memsize, argv[1])
 
@@ -22,7 +22,11 @@ def Debugger():
     os.system('cls' if os.name == 'nt' else 'clear')
 
     #Default Debug
-    lines.append('Current: ' + hex(cpu.regdb[1][1]) + '\t' + str(mem.read(cpu.regdb[1][1])) + '\t|\t' + 'Memory info: ' + hex(memsize) + '(' + str(memsize) + ')Blocks\t' + 'DOS: ' + DOSval)
+    start = 'Current: ' + hex(cpu.regdb[1][1]) + '\t' + str(mem.read(cpu.regdb[1][1])) + '\t'
+    ins = mem.read(cpu.regdb[1][1])[:3]
+    if ins == 'mrd' or ins == 'mwr' or ins == 'lco' or ins == 'jmp':
+        start += '\t'
+    lines.append(start + '|\t' + 'Memory info: ' + hex(memsize) + '(' + str(memsize) + ')Blocks\t' + 'DOS: ' + DOSval)
     lines.append('-' * 119)
 
     #CPU Debug
@@ -34,7 +38,7 @@ def Debugger():
             lines.append(reg[0] + ':\t' + hex(reg[1]) + '\t|')
 
     #Memory Debug
-    lines[2] += mem.DEBUG(87)
+    lines[2] += mem.DEBUG(86)
     while len(mem.stderr) > cpu.regcount:
         del mem.stderr[0]
     mem.stderr.reverse()
