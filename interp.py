@@ -1,9 +1,16 @@
-asmcode = open('asm', 'r')
+from sys import argv
+
+name = argv[1]
+asmcode = open(name, 'r')
 length = len(asmcode.readlines())
 asmcode.close()
-asmcode = open('asm', 'r')
+asmcode = open(name, 'r')
 
-imgout = open('asmimage.py', 'w')
+for i, x in enumerate(argv[1]):
+	if x == '.':
+		name = name[:i]
+		break
+imgout = open(name + '.py', 'w')
 imgout.write('image = [')
 
 aftercomma = False
