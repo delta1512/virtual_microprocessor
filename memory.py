@@ -8,6 +8,10 @@ class mem:
 		self.stderr = ['Memory error log']
 
 	def initMem(self, size, imgname):
+		for i, x in enumerate(imgname):
+			if x == '.':
+				imgname = imgname[:i]
+				break
 		self.MemSize = size
 		imp = 'import ' + imgname
 		exec(imp)
@@ -42,7 +46,8 @@ class mem:
 		graphic = 'Memory usage: ['
 		for j in range(0, floor(size * usage)):
 			graphic += '|'
-		for i in range(0, size - int(usage * 100)):
+			size -= 1
+		for i in range(0, size):
 			graphic += ' '
 		graphic += ']'
 		return graphic
