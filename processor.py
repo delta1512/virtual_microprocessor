@@ -73,7 +73,7 @@ class cpu:
         if op == 'lco':
             self.Reg_Access('ACC', int(arg, 16))
         if op == 'jmp':
-            self.Reg_Access('PC', int(arg, 16))
+            self.Reg_Access('PC', int(arg, 16)-1)
 
     #Tick() returns the next instruction and result of any
     #memory operations from the last tick
