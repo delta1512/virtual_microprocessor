@@ -5,12 +5,19 @@ import os
 import processor
 import memory
 
+#DOS == Default Output System
+
 global mem, cpu, memsize, columns
 mem = memory.mem()
 cpu = processor.cpu()
 rows, columns = os.popen('stty size', 'r').read().split()
 
-debug = True
+debug = False
+try:
+    if argv[2] == '-d':
+        debug = True
+except:
+    pass
 memsize = 0xa00
 
 mem.initMem(memsize, argv[1])
@@ -64,13 +71,19 @@ def Debugger():
         print(ln)
 
 #MAIN LOOP
+prev = 0
 mem_bus = None
 while mem.read(0x0) != 0xff: #While the halt value is not in the DOS
+    if debug: #Calls debugger if debugger is set
+        Debugger()
+    else: #Prints any changes to the DOS
+        current = mem.read(0x0)
+        if current != prev:
+            print(current)
+        prev = current
     cpu_io = cpu.Tick(mem.read(cpu.regdb[1][1]), mem_bus) #Tick the CPU
     if cpu_io != None: #Handle the response
         mem_bus = eval(cpu_io) #Takes python code and executes in main's scope
     else:
         mem_bus = None
-    if debug:
-        Debugger()
     time.sleep(1) #Clock speed
