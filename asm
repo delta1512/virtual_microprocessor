@@ -62,11 +62,11 @@ lco	3
 add	PC, MBR
 mwr	SP
 jmp	0x002
-mrd     0x9f6
-mov     MBR, SP
-lco     3
-add     PC, MBR
-mwr     SP
+mrd	0x9f6
+mov	MBR, SP
+lco	3
+add	PC, MBR
+mwr	SP
 jmp	0x002
 lco	0xff
 mov	ACC, MBR
