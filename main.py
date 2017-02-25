@@ -30,13 +30,12 @@ def Debugger():
     os.system('cls' if os.name == 'nt' else 'clear')
 
     #Default Debug
-    start = 'Current: ' + hex(cpu.regdb[1][1]) + '\t' + str(mem.read(cpu.regdb[1][1])) + '\t'
-    if type(mem.read(cpu.regdb[1][1])) is int:
-        ins = mem.read(cpu.regdb[1][1])
-    else:
-        ins = mem.read(cpu.regdb[1][1])[:3]
-    if ins == 'mrd' or ins == 'mwr' or ins == 'lco' or ins == 'jmp': #Tabbing is still broken
+    start = 'Current: ' + hex(cpu.regdb[1][1]) + '\t' + str(mem.read(cpu.regdb[1][1])) + '\t\t'
+    ins = str(mem.read(cpu.regdb[1][1]))
+    if len(ins) < 8: #Tabbing broken for long instructions
         start += '\t'
+        if len(ins) < 4:
+            start += '\t'
     lines.append(start + '|\t' + 'Memory info: ' + hex(memsize) + '(' + str(memsize) + ')Blocks\t' + 'DOS: ' + DOSval)
     lines.append('-' * int(columns))
 
